@@ -18,10 +18,12 @@ export default function App() {
     onValue(itemsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
+        products = Object.keys(data).map(key => ({key, ...data[key]}))
         setItems(Object.values(data));
       } else {
         setItems([]); // Handle the case when there are no items
       }
+      setItems(products);
 
     })
   }, []);
@@ -36,7 +38,7 @@ export default function App() {
   }
 
   const deleteItem = (item) => {
-    remove(ref(database, `items/`), item);
+    remove(ref(database, `items/`), +key);
     console.log(item)
   }
 
